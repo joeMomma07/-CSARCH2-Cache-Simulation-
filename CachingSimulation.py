@@ -106,16 +106,18 @@ def run_simulation():
 
     f.close()
     
-    final_cache_label.config(text="Final Cache Memory", justify="center")
+    final_cache_label.config(text="Final Cache Memory                                        Final Statistics", justify="center")
     for i, cset in enumerate(cache_memory):
         formatted_set = ', '.join(str(item) for item in cset)
         cache_state_labels[i].config(text=f"[{formatted_set}]", justify="center",fg="#526534")
 
-    final_stats_label.config(text="Final Statistics", justify="center",fg="#526534")
-    stats_labels["access_count"].config(text=f"Memory Access Count: {mem_access}", justify="center", fg="#526534")
-    stats_labels["hits_misses"].config(text=f"Hits: {cache_hits} Misses: {cache_miss}", justify="center", fg="#526534")
-    stats_labels["hit_miss_rate"].config(text=f"Hit Rate: {cache_hits}/{mem_access} Miss Rate: {cache_miss}/{mem_access}", justify="center", fg="#526534")
-    stats_labels["avg_total_time"].config(text=f"Avg Access Time: {average_access_time:.2f} ns Total Time: {total_access_time} ns", justify="center", fg="#526534")
+  
+    stats_labels["access_count"].config(text=f"Memory Access Count: {mem_access}", justify="center", fg="#526534",font=12)
+    stats_labels["hits_misses"].config(text=f"Cache Memory Hits: {cache_hits} | Cache Memory Misses: {cache_miss}", justify="center", fg="#526534",font=10)
+    stats_labels["hit_rate"].config(text=f"Cache Memory Hit Rate: {cache_hits}/{mem_access}", justify="center", fg="#526534",font=10)
+    stats_labels["miss_rate"].config(text=f"Cache Memory Miss Rate: {cache_miss}/{mem_access}", justify="center", fg="#526534",font=10)
+    stats_labels["avg_total_time"].config(text=f"Average Access Time: {average_access_time:.2f} ns", justify="center", fg="#526534",font=10)
+    stats_labels["total_time"].config(text=f"Total Memory Time: {total_access_time} ns", justify="center", fg="#526534",font=10)
 
 
      
@@ -129,7 +131,7 @@ custom_style.configure("Custom.TCombobox", foreground="#526534")
 
 # Dropdown menu for test cases
 test_case_var = tk.StringVar()
-test_case_label = tk.Label(root, text="Select test case",font=("bold", 16),fg='white',bg='#8d9e6f')
+test_case_label = tk.Label(root, text="Test Case",font=("bold", 16),fg='white',bg='#8d9e6f')
 test_case_label.pack(pady=10)
 test_case_dropdown = ttk.Combobox(root, textvariable=test_case_var,style="Custom.TCombobox")
 test_case_dropdown['values'] = ('Sequential blocks', 'Random blocks', 'Mid-repeat blocks')
@@ -137,7 +139,7 @@ test_case_dropdown.pack(pady=5)
 
 # Entry for blocks
 block_number_var = tk.StringVar()
-block_number_label = tk.Label(root, text="Blocks",font=("bold", 16),fg='white',bg='#8d9e6f')
+block_number_label = tk.Label(root, text="Memory Blocks",font=("bold", 16),fg='white',bg='#8d9e6f')
 block_number_label.pack(pady=5)
 
 block_entry = tk.Entry(root,fg="#526534")
@@ -153,7 +155,7 @@ memory_display.pack(pady=5)
 
 # Label to display results
 result_label = tk.Label(root, text="",bg='#8d9e6f', fg='white')
-result_label.pack()
+result_label.pack(padx=5)
 
 # Button to submit choice
 run_button = tk.Button(root, text="Run Simulator", command=run_simulation,highlightbackground='#8d9e6f',fg="#526534")
@@ -167,7 +169,7 @@ final_cache_label = tk.Label(container_master,text="", anchor="w", font=("bold",
 final_cache_label.pack(fill="both", expand=True,padx=10)
 
 # Create a frame to contain the labels
-label_container = tk.Frame(container_master, width=150, height=200, bd=1)
+label_container = tk.Frame(container_master, width=150, height=210, bd=1)
 label_container.pack_propagate(False)  
 label_container.pack(side="left",padx=10) 
 
@@ -177,21 +179,20 @@ for lbl in cache_state_labels:
     lbl.pack(fill="both",side="top",anchor="w")  # Align labels to the left (west)
 
 # Statistics Frame
-statistics_container = tk.Frame(container_master, width=350, height=150,bd=1,
+statistics_container = tk.Frame(container_master, width=400, height=210,bd=1,
                            highlightbackground="#ebefe3", bg="#ebefe3")
 statistics_container.pack_propagate(False)  
 statistics_container.pack(side="right",padx=10) 
 
 
-final_stats_label = tk.Label(statistics_container,text="",anchor="w", font=("bold", 16))
-final_stats_label.pack(fill="both", expand=True,side="top",padx=10)
-
 # Labels for Statistics
 stats_labels = {
-    "access_count": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534"),
-    "hits_misses": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534"),
-    "hit_miss_rate": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534"),
-    "avg_total_time": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534"),
+    "access_count": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
+    "hits_misses": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
+    "hit_rate": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
+    "miss_rate": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
+    "avg_total_time": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
+    "total_time": tk.Label(statistics_container, text="", anchor="w",justify="center",fg="#526534",font=10),
 }
 for lbl in stats_labels.values():
     lbl.pack(fill="both", expand=True,anchor="w",padx=10)
